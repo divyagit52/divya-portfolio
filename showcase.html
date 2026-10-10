@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Primitive Showcase — DESIGN.md §5 state harness</title>
+    <link rel="stylesheet" href="assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <style>
+      /* Harness chrome only — never ships with the product page. */
+      .h-wrap {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: var(--s-10) var(--gutter) var(--s-24);
+      }
+      .h-title {
+        font-family: var(--f-display);
+        font-size: var(--t-h2);
+        letter-spacing: -0.02em;
+        color: var(--c-text-1);
+      }
+      .h-sub {
+        margin-top: var(--s-2);
+        font-size: var(--t-small);
+        color: var(--c-text-3);
+      }
+      .h-group {
+        margin-top: var(--s-16);
+        padding-top: var(--s-8);
+        border-top: 1px solid var(--c-line-2);
+      }
+      .h-group > h2 {
+        font-family: var(--f-mono);
+        font-size: var(--t-caption);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--c-violet-400);
+      }
+      .h-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--s-6);
+        margin-top: var(--s-6);
+        align-items: flex-start;
+      }
+      .h-cell {
+        min-width: 0;
+      }
+      .h-label {
+        display: block;
+        margin-bottom: var(--s-3);
+        font-family: var(--f-mono);
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--c-text-4);
+      }
+      .h-grid {
+        display: grid;
+        gap: var(--s-6);
+        margin-top: var(--s-6);
+        grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+      }
+      .h-note {
+        margin-top: var(--s-4);
+        font-size: var(--t-caption);
+        color: var(--c-text-3);
+      }
+      .h-stress {
+        max-width: 18rem;
+      }
+      /* Harness-only: the burger is display:none at >=768px in production,
+         so force it visible here for state review at every width. */
+      .h-cell .nav__burger {
+        display: grid;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="h-wrap">
+      <h1 class="h-title">Primitive Showcase</h1>
+      <p class="h-sub">
+        DESIGN.md §5 — every primitive in every named state. States unreachable by
+        a static screenshot are forced with <code>data-force</code>, which mirrors
+        the real pseudo-class rule.
+      </p>
+
+      <!-- ===================== §5.1 GlassPanel ===================== -->
+      <section class="h-group">
+        <h2>§5.1 GlassPanel — double bezel</h2>
+        <div class="h-grid">
+          <div class="h-cell">
+            <span class="h-label">default</span>
+            <div class="panel">
+              <div class="panel__core">
+                <p style="color: var(--c-text-2); font-size: var(--t-small)">
+                  Outer shell carries the hairline rim; the inner core carries the
+                  inset highlight. Radii are concentric.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">--lg (panel radius)</span>
+            <div class="panel panel--lg">
+              <div class="panel__core">
+                <p style="color: var(--c-text-2); font-size: var(--t-small)">
+                  Larger outer radius, deeper padding. Used for the hero tracker and
+                  project cards.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">--link · default</span>
+            <a class="panel panel--link" href="#0">
+              <div class="panel__core">
+                <p style="color: var(--c-text-2); font-size: var(--t-small)">
+                  Interactive panel, resting.
+                </p>
+              </div>
+            </a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">--link · hover (forced)</span>
+            <a class="panel panel--link" href="#0" data-force="hover">
+              <div class="panel__core">
+                <p style="color: var(--c-text-2); font-size: var(--t-small)">
+                  Lifts 2px, core steps one luminance level up, violet rim light.
+                </p>
+              </div>
+            </a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">--link · focus (forced)</span>
+            <a class="panel panel--link" href="#0" data-force="focus">
+              <div class="panel__core">
+                <p style="color: var(--c-text-2); font-size: var(--t-small)">
+                  Visible 2px violet outline, 3px offset.
+                </p>
+              </div>
+            </a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">--link · active (forced)</span>
+            <a class="panel panel--link" href="#0" data-force="active">
+              <div class="panel__core">
+                <p style="color: var(--c-text-2); font-size: var(--t-small)">
+                  Scales to 0.995 — press acknowledgement.
+                </p>
+              </div>
+            </a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">--flush (zero core padding)</span>
+            <div class="panel panel--lg panel--flush">
+              <div class="panel__core">
+                <div
+                  style="
+                    padding: var(--s-5);
+                    border-bottom: 1px solid var(--c-line-2);
+                    font-size: var(--t-caption);
+                    color: var(--c-text-3);
+                  "
+                >
+                  Edge-to-edge child region
+                </div>
+                <div
+                  style="
+                    padding: var(--s-5);
+                    font-size: var(--t-caption);
+                    color: var(--c-text-3);
+                  "
+                >
+                  Second region, no gutter leak
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="h-cell h-stress">
+            <span class="h-label">stress · unbroken string</span>
+            <div class="panel">
+              <div class="panel__core">
+                <p style="color: var(--c-text-2); font-size: var(--t-small)">
+                  Placed&#8203;Packed&#8203;OutForDelivery&#8203;Delivered&#8203;OrderTrackerStateMachine
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== §5.2 Button ===================== -->
+      <section class="h-group">
+        <h2>§5.2 Button — primary / ghost / quiet</h2>
+
+        <div class="h-row">
+          <div class="h-cell">
+            <span class="h-label">primary · default</span>
+            <a class="btn btn--primary" href="#0"
+              >Download résumé<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-download"></use></svg></span
+            ></a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">primary · hover</span>
+            <a class="btn btn--primary" href="#0" data-force="hover"
+              >Download résumé<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-download"></use></svg></span
+            ></a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">primary · active</span>
+            <a class="btn btn--primary" href="#0" data-force="active"
+              >Download résumé<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-download"></use></svg></span
+            ></a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">primary · focus</span>
+            <a class="btn btn--primary" href="#0" data-force="focus"
+              >Download résumé<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-download"></use></svg></span
+            ></a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">primary · disabled</span>
+            <span class="btn btn--primary" aria-disabled="true"
+              >Unavailable<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-download"></use></svg></span
+            ></span>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">primary · loading</span>
+            <span class="btn btn--primary" aria-busy="true"
+              >Preparing file<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-download"></use></svg></span
+            ></span>
+          </div>
+        </div>
+
+        <div class="h-row">
+          <div class="h-cell">
+            <span class="h-label">ghost · default</span>
+            <a class="btn btn--ghost" href="#0"
+              >View projects<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-arrow"></use></svg></span
+            ></a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">ghost · hover</span>
+            <a class="btn btn--ghost" href="#0" data-force="hover"
+              >View projects<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-arrow"></use></svg></span
+            ></a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">ghost · active</span>
+            <a class="btn btn--ghost" href="#0" data-force="active"
+              >View projects<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-arrow"></use></svg></span
+            ></a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">ghost · focus</span>
+            <a class="btn btn--ghost" href="#0" data-force="focus"
+              >View projects<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-arrow"></use></svg></span
+            ></a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">ghost · disabled</span>
+            <span class="btn btn--ghost" aria-disabled="true"
+              >No live demo<span class="btn__icon"
+                ><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <use href="#i-arrow"></use></svg></span
+            ></span>
+          </div>
+        </div>
+
+        <div class="h-row">
+          <div class="h-cell">
+            <span class="h-label">quiet · default</span>
+            <a class="btn btn--quiet" href="#0">Also available as .docx</a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">quiet · hover</span>
+            <a class="btn btn--quiet" href="#0" data-force="hover"
+              >Also available as .docx</a
+            >
+          </div>
+          <div class="h-cell">
+            <span class="h-label">quiet · focus</span>
+            <a class="btn btn--quiet" href="#0" data-force="focus"
+              >Also available as .docx</a
+            >
+          </div>
+        </div>
+
+        <div class="h-row">
+          <div class="h-cell h-stress">
+            <span class="h-label">stress · long label wraps container</span>
+            <div class="btn-row">
+              <a class="btn btn--primary" href="#0"
+                >Download the full MERN stack résumé as PDF<span class="btn__icon"
+                  ><svg viewBox="0 0 24 24" aria-hidden="true">
+                    <use href="#i-download"></use></svg></span
+              ></a>
+              <a class="btn btn--ghost" href="#0"
+                >Secondary<span class="btn__icon"
+                  ><svg viewBox="0 0 24 24" aria-hidden="true">
+                    <use href="#i-arrow"></use></svg></span
+              ></a>
+            </div>
+          </div>
+        </div>
+        <p class="h-note">
+          The trailing glyph is never naked — it always sits in its own circular
+          wrapper flush with the pill's right inner padding.
+        </p>
+      </section>
+
+      <!-- ===================== §5.3 NavIsland ===================== -->
+      <section class="h-group">
+        <h2>§5.3 NavIsland — detached pill + burger morph + overlay</h2>
+        <div class="h-row">
+          <div class="h-cell">
+            <span class="h-label">nav link · default</span>
+            <a class="nav__link" href="#0">Projects</a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">nav link · hover</span>
+            <a class="nav__link" href="#0" data-force="hover">Projects</a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">nav link · current (scroll-spy)</span>
+            <a class="nav__link" href="#0" aria-current="true">Projects</a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">nav link · focus</span>
+            <a class="nav__link" href="#0" data-force="focus">Projects</a>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">burger · closed</span>
+            <button class="nav__burger" type="button" aria-expanded="false">
+              <span class="sr-only">Open menu</span>
+              <span class="nav__burger-box" aria-hidden="true"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">burger · open (morphed to X)</span>
+            <button class="nav__burger" type="button" aria-expanded="true">
+              <span class="sr-only">Close menu</span>
+              <span class="nav__burger-box" aria-hidden="true"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+        <p class="h-note">
+          The live island is <code>position: fixed</code>; it is rendered in place
+          on <code>index.html</code>. Only its children are state-tested here so
+          the harness stays scrollable.
+        </p>
+      </section>
+
+      <!-- ===================== §5.4 OrderTracker ===================== -->
+      <section class="h-group">
+        <h2>§5.4 OrderTracker — the signature moment</h2>
+        <div class="h-grid">
+          <div class="h-cell">
+            <span class="h-label">step 2 of 4 active</span>
+            <div class="panel panel--lg panel--flush">
+              <div class="panel__core">
+                <div class="tracker__head">
+                  <span class="tracker__id">#FKM-2048</span>
+                  <span class="tracker__badge">Live</span>
+                </div>
+                <div class="tracker__rail">
+                  <div class="tracker__step is-done">
+                    <span class="tracker__dot" aria-hidden="true"
+                      ><svg viewBox="0 0 24 24"><use href="#i-check"></use></svg
+                    ></span>
+                    <span class="tracker__label">Placed</span>
+                    <span class="tracker__time">09:41</span>
+                  </div>
+                  <div class="tracker__step is-active">
+                    <span class="tracker__dot" aria-hidden="true"></span>
+                    <span class="tracker__label">Packed</span>
+                    <span class="tracker__time">09:43</span>
+                  </div>
+                  <div class="tracker__step">
+                    <span class="tracker__dot" aria-hidden="true"></span>
+                    <span class="tracker__label">Out for delivery</span>
+                    <span class="tracker__time">—</span>
+                  </div>
+                  <div class="tracker__step">
+                    <span class="tracker__dot" aria-hidden="true"></span>
+                    <span class="tracker__label">Delivered</span>
+                    <span class="tracker__time">—</span>
+                  </div>
+                </div>
+                <div class="tracker__foot">
+                  Redux order slice · Express status endpoint
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">terminal state — all done</span>
+            <div class="panel panel--lg panel--flush">
+              <div class="panel__core">
+                <div class="tracker__head">
+                  <span class="tracker__id">#FKM-2047</span>
+                  <span class="tracker__badge">Live</span>
+                </div>
+                <div class="tracker__rail">
+                  <div class="tracker__step is-done">
+                    <span class="tracker__dot" aria-hidden="true"
+                      ><svg viewBox="0 0 24 24"><use href="#i-check"></use></svg
+                    ></span>
+                    <span class="tracker__label">Placed</span>
+                    <span class="tracker__time">09:12</span>
+                  </div>
+                  <div class="tracker__step is-done">
+                    <span class="tracker__dot" aria-hidden="true"
+                      ><svg viewBox="0 0 24 24"><use href="#i-check"></use></svg
+                    ></span>
+                    <span class="tracker__label">Packed</span>
+                    <span class="tracker__time">09:14</span>
+                  </div>
+                  <div class="tracker__step is-done">
+                    <span class="tracker__dot" aria-hidden="true"
+                      ><svg viewBox="0 0 24 24"><use href="#i-check"></use></svg
+                    ></span>
+                    <span class="tracker__label">Out for delivery</span>
+                    <span class="tracker__time">09:19</span>
+                  </div>
+                  <div class="tracker__step is-done">
+                    <span class="tracker__dot" aria-hidden="true"
+                      ><svg viewBox="0 0 24 24"><use href="#i-check"></use></svg
+                    ></span>
+                    <span class="tracker__label">Delivered</span>
+                    <span class="tracker__time">09:26</span>
+                  </div>
+                </div>
+                <div class="tracker__foot">
+                  Redux order slice · Express status endpoint
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">empty / first step only</span>
+            <div class="panel panel--lg panel--flush">
+              <div class="panel__core">
+                <div class="tracker__head">
+                  <span class="tracker__id">#FKM-2049</span>
+                  <span class="tracker__badge">Live</span>
+                </div>
+                <div class="tracker__rail">
+                  <div class="tracker__step is-active">
+                    <span class="tracker__dot" aria-hidden="true"></span>
+                    <span class="tracker__label">Placed</span>
+                    <span class="tracker__time">now</span>
+                  </div>
+                  <div class="tracker__step">
+                    <span class="tracker__dot" aria-hidden="true"></span>
+                    <span class="tracker__label">Packed</span>
+                    <span class="tracker__time">—</span>
+                  </div>
+                  <div class="tracker__step">
+                    <span class="tracker__dot" aria-hidden="true"></span>
+                    <span class="tracker__label">Out for delivery</span>
+                    <span class="tracker__time">—</span>
+                  </div>
+                  <div class="tracker__step">
+                    <span class="tracker__dot" aria-hidden="true"></span>
+                    <span class="tracker__label">Delivered</span>
+                    <span class="tracker__time">—</span>
+                  </div>
+                </div>
+                <div class="tracker__foot">
+                  Redux order slice · Express status endpoint
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== §5.5 Chip ===================== -->
+      <section class="h-group">
+        <h2>§5.5 Chip</h2>
+        <div class="h-row">
+          <div class="h-cell">
+            <span class="h-label">neutral + accent</span>
+            <ul class="chips">
+              <li class="chip">MongoDB</li>
+              <li class="chip">Express.js</li>
+              <li class="chip">React.js</li>
+              <li class="chip">Node.js</li>
+              <li class="chip chip--accent">Redux Toolkit</li>
+            </ul>
+          </div>
+          <div class="h-cell h-stress">
+            <span class="h-label">stress · long token wraps</span>
+            <ul class="chips">
+              <li class="chip">Role-Based Access Control</li>
+              <li class="chip">RESTful API Development</li>
+              <li class="chip">Yup Schema Validation</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== §5.6 SectionHeader ===================== -->
+      <section class="h-group">
+        <h2>§5.6 SectionHeader</h2>
+        <div class="s-head" style="margin-top: var(--s-6)">
+          <p class="eyebrow">Selected work</p>
+          <h3 class="s-title">Three systems, built end to end</h3>
+          <p class="s-lede">
+            Each one shipped with its own data model, API surface and access-control
+            rules — not a tutorial clone.
+          </p>
+        </div>
+        <div class="s-head" style="margin-top: var(--s-10)">
+          <p class="eyebrow">No lede variant</p>
+          <h3 class="s-title">Education</h3>
+        </div>
+      </section>
+
+      <!-- ===================== §5.7 Timeline ===================== -->
+      <section class="h-group">
+        <h2>§5.7 Timeline</h2>
+        <div class="timeline" style="margin-top: var(--s-6)">
+          <article class="tl-entry">
+            <div class="tl-head">
+              <h3 class="tl-role">Junior Software Developer</h3>
+              <p class="tl-dates">Jul 2025 – Aug 2026</p>
+            </div>
+            <p class="tl-org">
+              <span class="org">CMARIX Infotech</span><span class="sep"></span
+              >Ahmedabad, Gujarat<span class="sep"></span>Onsite
+            </p>
+            <ul class="bullets">
+              <li>
+                <b>Built client-facing React.js interfaces</b> — responsive
+                interactive screens for live client products.
+              </li>
+            </ul>
+            <div class="learn">
+              <p class="learn__tag">Key learning</p>
+              <p>
+                Professional code-review discipline and maintainable frontend
+                architecture for long-lived products.
+              </p>
+            </div>
+          </article>
+          <article class="tl-entry">
+            <div class="tl-head">
+              <h3 class="tl-role">Frontend Development Trainee</h3>
+              <p class="tl-dates">Jan 2025 – Jun 2025</p>
+            </div>
+            <p class="tl-org">
+              <span class="org">BasketHunt Pvt. Ltd.</span><span class="sep"></span
+              >Jharkhand<span class="sep"></span>Remote
+            </p>
+            <ul class="bullets">
+              <li>
+                <b>Developed dynamic React.js applications</b> — rendering
+                performance and scalable component structure.
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===================== §5.9 Bullets + §5.8 KeyLearning ===================== -->
+      <section class="h-group">
+        <h2>§5.9 Bullets · §5.8 KeyLearning</h2>
+        <div class="h-grid">
+          <div class="h-cell">
+            <span class="h-label">bullets · with lead-in</span>
+            <ul class="bullets">
+              <li>
+                <b>Authentication and authorization</b> — JWT login and
+                registration, bcrypt password hashing, protected-route middleware.
+              </li>
+              <li>
+                <b>Admin dashboard and live order tracking</b> — advance an order
+                through Placed, Packed, Out for Delivery and Delivered.
+              </li>
+              <li>No lead-in phrase — a plain bullet still aligns correctly.</li>
+            </ul>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">key learning callout</span>
+            <div class="learn">
+              <p class="learn__tag">Key learning</p>
+              <p>
+                How frontend and backend contracts have to be designed together —
+                the API shape decides how simple the UI state can be.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== Skill cards ===================== -->
+      <section class="h-group">
+        <h2>Skill card (bento cell) — incl. --wide</h2>
+        <div class="bento" style="margin-top: var(--s-6)">
+          <article class="panel skill">
+            <div class="panel__core">
+              <div class="skill__head">
+                <span class="skill__icon" aria-hidden="true"
+                  ><svg viewBox="0 0 24 24"><use href="#i-code"></use></svg
+                ></span>
+                <h3 class="skill__title">Frontend</h3>
+              </div>
+              <ul class="chips">
+                <li class="chip">React.js</li>
+                <li class="chip">Next.js</li>
+                <li class="chip">TypeScript</li>
+              </ul>
+            </div>
+          </article>
+          <article class="panel skill skill--wide">
+            <div class="panel__core">
+              <div class="skill__head">
+                <span class="skill__icon" aria-hidden="true"
+                  ><svg viewBox="0 0 24 24"><use href="#i-server"></use></svg
+                ></span>
+                <h3 class="skill__title">Backend — wide cell</h3>
+              </div>
+              <ul class="chips">
+                <li class="chip">Node.js</li>
+                <li class="chip">Express.js</li>
+                <li class="chip">JWT Authentication</li>
+                <li class="chip">bcrypt</li>
+                <li class="chip">MVC Architecture</li>
+              </ul>
+            </div>
+          </article>
+          <article class="panel skill">
+            <div class="panel__core">
+              <div class="skill__head">
+                <span class="skill__icon" aria-hidden="true"
+                  ><svg viewBox="0 0 24 24"><use href="#i-db"></use></svg
+                ></span>
+                <h3 class="skill__title">Database</h3>
+              </div>
+              <ul class="chips">
+                <li class="chip">MongoDB</li>
+                <li class="chip">Mongoose ODM</li>
+                <li class="chip">Indexing</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===================== Project card ===================== -->
+      <section class="h-group">
+        <h2>Project card — live link vs. no-URL state</h2>
+        <div class="projects" style="margin-top: var(--s-6)">
+          <article class="panel panel--lg proj">
+            <div class="panel__core">
+              <div class="proj__top">
+                <div>
+                  <p class="proj__index">01</p>
+                  <h3 class="proj__name">Fikamoja</h3>
+                  <p class="proj__kind">Quick-commerce e-commerce application</p>
+                </div>
+                <span class="proj__link proj__link--soon">Live demo soon</span>
+              </div>
+              <ul class="chips proj__stack">
+                <li class="chip proj__stack-tag">React.js</li>
+                <li class="chip proj__stack-tag">Node.js</li>
+                <li class="chip proj__stack-tag">MongoDB</li>
+              </ul>
+            </div>
+          </article>
+          <article class="panel panel--lg proj">
+            <div class="panel__core">
+              <div class="proj__top">
+                <div>
+                  <p class="proj__index">03</p>
+                  <h3 class="proj__name">Car Selling Showroom</h3>
+                  <p class="proj__kind">Role-based vehicle marketplace</p>
+                </div>
+                <a
+                  class="proj__link"
+                  href="https://auto-dealer-beige.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Live demo<svg viewBox="0 0 24 24" aria-hidden="true">
+                    <use href="#i-ext"></use></svg
+                ></a>
+              </div>
+              <ul class="chips proj__stack">
+                <li class="chip proj__stack-tag">Next.js</li>
+                <li class="chip proj__stack-tag">Node.js</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===================== Education / Certs / Contact ===================== -->
+      <section class="h-group">
+        <h2>Education row · Certificate card · Contact link</h2>
+        <div class="h-grid">
+          <div class="h-cell">
+            <span class="h-label">education row</span>
+            <article class="edu">
+              <p class="edu__dates">Aug 2022 – May 2026</p>
+              <div>
+                <h3 class="edu__deg">B.Tech in Computer Science</h3>
+                <p class="edu__org">Medi-Caps University, Indore</p>
+              </div>
+              <p class="edu__score">CGPA 8.76 / 10</p>
+            </article>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">certificate card</span>
+            <div class="certs">
+              <article class="cert">
+                <span class="cert__icon" aria-hidden="true"
+                  ><svg viewBox="0 0 24 24"><use href="#i-seal"></use></svg
+                ></span>
+                <div>
+                  <h3 class="cert__name">
+                    Front-End Web Development using JavaScript and React.js
+                  </h3>
+                  <p class="cert__by">Bootcamp Certification</p>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="h-cell">
+            <span class="h-label">contact link · default + hover</span>
+            <div class="contact__links">
+              <a class="clink" href="mailto:divyakanungo008@gmail.com">
+                <span class="clink__icon" aria-hidden="true"
+                  ><svg viewBox="0 0 24 24"><use href="#i-mail"></use></svg
+                ></span>
+                <span>
+                  <span class="clink__tag">Email</span>
+                  <span class="clink__val">divyakanungo008@gmail.com</span>
+                </span>
+              </a>
+              <a class="clink" href="tel:+919109625701" data-force="hover">
+                <span class="clink__icon" aria-hidden="true"
+                  ><svg viewBox="0 0 24 24"><use href="#i-phone"></use></svg
+                ></span>
+                <span>
+                  <span class="clink__tag">Phone</span>
+                  <span class="clink__val">+91 9109625701</span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== Stats ===================== -->
+      <section class="h-group">
+        <h2>Stat block</h2>
+        <div class="stats" style="margin-top: var(--s-6)">
+          <div class="stat">
+            <p class="stat__fig">1.5<span>+</span></p>
+            <p class="stat__cap">Years building for the web</p>
+          </div>
+          <div class="stat">
+            <p class="stat__fig">3</p>
+            <p class="stat__cap">Full-stack systems shipped</p>
+          </div>
+          <div class="stat">
+            <p class="stat__fig">40<span>+</span></p>
+            <p class="stat__cap">Redux slices in one ERP</p>
+          </div>
+          <div class="stat">
+            <p class="stat__fig">8.76</p>
+            <p class="stat__cap">B.Tech CGPA / 10</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="assets/js/icons.js"></script>
+  </body>
+</html>
